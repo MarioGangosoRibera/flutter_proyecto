@@ -1,11 +1,15 @@
 import 'package:Proyecto_segundaEv/PantallaResgistro.dart';
+import 'package:Proyecto_segundaEv/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'Colores.dart';
 import 'PantallaServicios.dart';
+import 'database_helper.dart';
 
 class PantallaLogin extends StatelessWidget {
 
   final formKey = GlobalKey<FormState>();
+  final TextEditingController correoController = TextEditingController();
+  final TextEditingController contrasenaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class PantallaLogin extends StatelessWidget {
               Container(
                 width: 300,
                 child: TextFormField(
+                  controller: correoController,
                   validator: (value){
                     if(value!.isEmpty){
                       return 'El correo electrónico debe estar relleno';
@@ -37,9 +42,10 @@ class PantallaLogin extends StatelessWidget {
               Container(
                 width: 300,
                 child: TextFormField(
+                  controller: contrasenaController,
                   validator: (value){
                     if(value!.isEmpty){
-                      return 'La contraseña debe estar relleno';
+                      return 'La contraseña debe estar rellena';
                     }
                     return null;
                   },
@@ -57,14 +63,24 @@ class PantallaLogin extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorBoton
                   ),
-                  onPressed: (){
+                  onPressed: () async{
                     if(formKey.currentState!.validate()){
                       //Debe ir la logica del iniciar sesion
-                      //De momento lo pongo asi para poder entrar a las siguientes pantallas
-                      Navigator.push(
-                      context, 
-                      MaterialPageRoute(builder: (context) => PantallaServicios()),
-                    );
+                      DatabaseHelper dbHelper = DatabaseHelper();
+                      bool succes = await dbHelper.login(
+                        correoController.text,
+                        contrasenaController.text
+                      );
+                      if(succes){
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => PantallaServicios()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Credenciales incorrectas'))
+                        );
+                      }
                     }
                     
                   }, 

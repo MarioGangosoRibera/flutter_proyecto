@@ -27,7 +27,7 @@ class DatabaseHelper {
             id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre_apellidos TEXT NOT NULL,
             telefono TEXT NOT NULL,
-            correo_electronico TEXT NOT NULL,
+            correo_electronico TEXT NOT NULL UNIQUE,
             contrasena TEXT NOT NULL
           )
         ''');
@@ -52,5 +52,27 @@ class DatabaseHelper {
     );
   }
 
-  // Métodos para insertar, consultar, actualizar y eliminar datos se pueden agregar aquí
+  Future<void> registrarUsuario(String nombre_apellidos, String telefono, String correo, String contrasena) async {
+  final db = await database;
+  try {
+    await db.insert('Usuario', {
+      'nombre_apellidos': nombre_apellidos,
+      'telefono': telefono,
+      'correo_electronico': correo,
+      'contrasena': contrasena
+    });
+  } catch (e) {
+    print("Error al registrar usuario: $e");
+  }
+}
+
+  Future<bool> login(String correo, String contrasena) async {
+  final db = await database;
+  final List<Map<String, dynamic>> maps = await db.query(
+    'Usuario',
+    where: 'correo_electronico = ? AND contrasena = ?',
+    whereArgs: [correo, contrasena],
+  );
+  return maps.isNotEmpty; // Verdadero si el usuario existe
+}
 }
