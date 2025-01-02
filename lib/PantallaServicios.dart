@@ -9,7 +9,7 @@ class PantallaServicios extends StatefulWidget {
 }
 
 class _PantallaServiciosState extends State<PantallaServicios> {
-  int _selectedIndex = 1; // Inicialmente en la pantalla de servicios
+  int _selectedIndex = 0; // Inicialmente en la pantalla de servicios
 
   // Lista de pantallas
   final List<Widget> _screens = [
@@ -31,12 +31,12 @@ class _PantallaServiciosState extends State<PantallaServicios> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Citas',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.medical_services_outlined),
             label: 'Servicios',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            label: 'Citas',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'Colores.dart';
-import 'PantallaServicios.dart';
 
 class PantallaRegistro extends StatelessWidget {
 
@@ -14,33 +13,45 @@ class PantallaRegistro extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('assets/imagenes/LogoAlba.png', height: 200),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Nombre y apellidos',
-                filled: true
+            Container(
+              width: 300,
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Nombre y apellidos',
+                  filled: true
+                ),
+              ),
+            ),            
+            SizedBox(height: 10),
+            Container(
+              width: 300,
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Correo electrónico',
+                  filled: true
+                ),
               ),
             ),
             SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Correo electrónico',
-                filled: true
+            Container(
+              width: 300,
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Nº Telefono',
+                  filled: true
+                ),
               ),
             ),
             SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Nº Telefono',
-                filled: true
+            Container(
+              width: 300,
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  filled: true
+                ),
+                obscureText: true,
               ),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Contraseña',
-                filled: true
-              ),
-              obscureText: true,
             ),
             SizedBox(height: 10),
             Container(

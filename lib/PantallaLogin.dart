@@ -13,19 +13,25 @@ class PantallaLogin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('assets/imagenes/LogoAlba.png', height: 200),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Correo electrónico',
-                filled: true
+            Container(
+              width: 300,
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Correo electrónico',
+                  filled: true
+                ),
               ),
             ),
             SizedBox(height: 10,),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Contraseña',
-                filled: true
+            Container(
+              width: 300,
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  filled: true
+                ),
+                obscureText: true,
               ),
-              obscureText: true,
             ),
             SizedBox(height: 10),
             Container(
