@@ -1,4 +1,5 @@
 
+import 'package:Proyecto_segundaEv/PantallaLogin.dart';
 import 'package:flutter/material.dart';
 import 'Colores.dart';
 
@@ -68,6 +69,21 @@ class PantallaRegistro extends StatelessWidget {
                   style: TextStyle(color: colorLetraB)
                 )
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('¿Ya tienes cuenta?'),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                    context, 
+                    MaterialPageRoute(builder: (context) => PantallaLogin()),
+                    );      
+                  }, 
+                  child: Text('Iniciar sesion')
+                )
+              ],
             )
           ],
         ),

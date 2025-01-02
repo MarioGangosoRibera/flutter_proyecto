@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Colores.dart';
+import 'Pantalla_principal.dart';
 
 class PantallaPerfil extends StatelessWidget {
 
