@@ -65,6 +65,13 @@ class PantallaLogin extends StatelessWidget {
                   ),
                   onPressed: () async{
                     if(formKey.currentState!.validate()){
+
+                      //Lo voy a poner asi para poder entrar sin que compruebe que este en la base de datos
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => PantallaServicios()),
+                        );
+
                       //Debe ir la logica del iniciar sesion
                       DatabaseHelper dbHelper = DatabaseHelper();
                       bool succes = await dbHelper.login(
@@ -72,10 +79,7 @@ class PantallaLogin extends StatelessWidget {
                         contrasenaController.text
                       );
                       if(succes){
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => PantallaServicios()),
-                        );
+                        
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Credenciales incorrectas'))

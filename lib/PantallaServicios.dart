@@ -2,8 +2,18 @@ import 'package:Proyecto_segundaEv/Colores.dart';
 import 'package:flutter/material.dart';
 import 'PantallaCalendario.dart';
 import 'PantallaPerfil.dart';
+import 'PantallaCitas.dart';
 
 class PantallaServicios extends StatefulWidget {
+
+  final List<String> servicios = [
+    'Pérdida de peso y recomposición corporal',
+    'Nutrición en patologias deportivas',
+    'Alimentación vegetariana y vegana',
+    'Nutrición clínica',
+    'Trastornos de la Conducta Alimentaria'
+  ];
+
   @override
   _PantallaServiciosState createState() => _PantallaServiciosState();
 }
@@ -27,7 +37,7 @@ class _PantallaServiciosState extends State<PantallaServicios> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex], // Muestra la pantalla seleccionada
+      body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -113,7 +123,12 @@ class PantallaServiciosContent extends StatelessWidget {
                         backgroundColor: colorBoton
                       ),
                       onPressed: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PantallaCitas(servicio: 'Pérdida de peso y recomposición corporal'),
+                          ),
+                        );
                       },
                       child: Text(
                         'Pedir cita',
@@ -159,7 +174,12 @@ class PantallaServiciosContent extends StatelessWidget {
                         backgroundColor: colorBoton
                       ),
                       onPressed: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PantallaCitas(servicio: 'Nutrición en patologias deportivas')
+                          ),
+                        );
                       },
                       child: Text(
                         'Pedir cita',
@@ -191,7 +211,7 @@ class PantallaServiciosContent extends StatelessWidget {
                     Container(
                         width: 250,
                         child: Text(
-                        'Alimentacion vegetariana y vegana',
+                        'Alimentación vegetariana y vegana',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -205,7 +225,12 @@ class PantallaServiciosContent extends StatelessWidget {
                         backgroundColor: colorBoton
                       ),
                       onPressed: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PantallaCitas(servicio: 'Alimentación vegetariana y vegana'),
+                          ),
+                        );
                       },
                       child: Text(
                         'Pedir cita',
@@ -251,7 +276,12 @@ class PantallaServiciosContent extends StatelessWidget {
                         backgroundColor: colorBoton
                       ),
                       onPressed: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PantallaCitas(servicio: 'Nutrición clínica'),
+                          ),
+                        );
                       },
                       child: Text(
                         'Pedir cita',
@@ -297,7 +327,12 @@ class PantallaServiciosContent extends StatelessWidget {
                         backgroundColor: colorBoton
                       ),
                       onPressed: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PantallaCitas(servicio: 'Transtornos de la conducta alimentaria'),
+                          ),
+                        );
                       },
                       child: Text(
                         'Pedir cita',
