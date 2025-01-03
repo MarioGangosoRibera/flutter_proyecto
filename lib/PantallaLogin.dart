@@ -1,9 +1,9 @@
 import 'package:Proyecto_segundaEv/PantallaResgistro.dart';
-import 'package:Proyecto_segundaEv/database_helper.dart';
+import 'package:Proyecto_segundaEv/databaseHelper.dart';
 import 'package:flutter/material.dart';
 import 'Colores.dart';
 import 'PantallaServicios.dart';
-import 'database_helper.dart';
+import 'databaseHelper.dart';
 
 class PantallaLogin extends StatelessWidget {
 

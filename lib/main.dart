@@ -1,23 +1,21 @@
 import 'package:Proyecto_segundaEv/Colores.dart';
-import 'package:Proyecto_segundaEv/Pantalla_principal.dart';
+import 'package:Proyecto_segundaEv/PantallaPrincipal.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 
 void main() {
-  runApp(const MainApp());
+  databaseFactory = databaseFactoryFfi; // Inicializa el factory
+
+  runApp(MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Proyecto 2 evaluación',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: colorFondo
-      ),
+      theme: ThemeData(scaffoldBackgroundColor: colorFondo),
+      title: 'Mi Aplicación',
       home: PantallaPrincipal(),
     );
   }
