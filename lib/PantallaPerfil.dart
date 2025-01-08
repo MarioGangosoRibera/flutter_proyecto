@@ -59,7 +59,11 @@ class PantallaPerfil extends StatelessWidget {
                   backgroundColor: colorBoton
                 ),
                 onPressed: (){
-
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PantallaPrincipal()),
+                        );
                 }, 
                 child: Text(
                   'Cerrar sesion',

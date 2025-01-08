@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'Colores.dart';
 
 import 'package:flutter/material.dart';
 
@@ -17,9 +18,10 @@ class _PantallaCitasState extends State<PantallaCitas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Citas para ${widget.servicio}')),
+      appBar: AppBar(title: Text('Citas para ${widget.servicio}'),
+      backgroundColor: colorFondo),
       body: Center(
-        child: Text('Aquí puedes gestionar las citas para ${widget.servicio}.'),
+        child: Text('Calendario para las citas de ${widget.servicio}.'),
       ),
     );
   }
