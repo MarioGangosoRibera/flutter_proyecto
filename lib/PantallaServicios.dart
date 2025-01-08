@@ -126,7 +126,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicio: 'Pérdida de peso y recomposición corporal'),
+                            builder: (context) => PantallaCitas(),
                           ),
                         );
                       },
@@ -177,7 +177,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicio: 'Nutrición en patologias deportivas')
+                            builder: (context) => PantallaCitas()
                           ),
                         );
                       },
@@ -228,7 +228,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicio: 'Alimentación vegetariana y vegana'),
+                            builder: (context) => PantallaCitas(),
                           ),
                         );
                       },
@@ -279,7 +279,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicio: 'Nutrición clínica'),
+                            builder: (context) => PantallaCitas(),
                           ),
                         );
                       },
@@ -330,7 +330,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicio: 'Transtornos de la conducta alimentaria'),
+                            builder: (context) => PantallaCitas(),
                           ),
                         );
                       },
