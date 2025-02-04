@@ -62,36 +62,81 @@ class DatabaseHelper {
   }
 
   Future<void> registrarUsuario(String nombre_apellidos, String telefono, String correo, String contrasena) async {
-  final db = await database;
-  try {
-    await db.insert('Usuario', {
-      'nombre_apellidos': nombre_apellidos,
-      'telefono': telefono,
-      'correo_electronico': correo,
-      'contrasena': contrasena
-    });
-  } catch (e) {
-    print("Error al registrar usuario: $e");
+    final db = await database;
+    try {
+      await db.insert('Usuario', {
+        'nombre_apellidos': nombre_apellidos,
+        'telefono': telefono,
+        'correo_electronico': correo,
+        'contrasena': contrasena
+      });
+    } catch (e) {
+      print("Error al registrar usuario: $e");
+    }
   }
-}
 
-Future<bool> existeCorreo(String correo) async {
-  final db = await database;
-  final List<Map<String, dynamic>> maps = await db.query(
-    'Usuario',
-    where: 'correo_electronico = ?',
-    whereArgs: [correo],
-  );
-  return maps.isNotEmpty; // Devuelve true si el correo ya existe
-}
+  Future<bool> existeCorreo(String correo) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'Usuario',
+      where: 'correo_electronico = ?',
+      whereArgs: [correo],
+    );
+    return maps.isNotEmpty; // Devuelve true si el correo ya existe
+  }
 
-Future<bool> login(String correo, String contrasena) async {
-  final db = await database;
-  final List<Map<String, dynamic>> maps = await db.query(
-    'Usuario',
-    where: 'correo_electronico = ? AND contrasena = ?',
-    whereArgs: [correo, contrasena],
-  );
-return maps.isNotEmpty; // Verdadero si el usuario existe
-}
+  Future<bool> login(String correo, String contrasena) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'Usuario',
+      where: 'correo_electronico = ? AND contrasena = ?',
+      whereArgs: [correo, contrasena],
+    );
+  return maps.isNotEmpty; // Verdadero si el usuario existe
+  }
+
+  Future<void> registrarCita({
+    required String fecha,
+    required String hora,
+    required int idUsuario,
+    required int idServicio,
+  }) async {
+    final db = await database; // Obtén la base de datos
+    await db.insert('Cita', {
+      'fecha': fecha,
+      'hora': hora,
+      'id_usuario': idUsuario,
+      'id_servicio': idServicio,
+    });
+  }
+
+  Future<List<String>> obtenerHorasReservadas(DateTime fecha) async {
+    final db = await database;
+    final List<Map<String, dynamic>> reservas = await db.query(
+      'Cita',
+      where: 'fecha = ?',
+      whereArgs: [fecha.toIso8601String()],
+    );
+
+    // Extraer las horas reservadas
+    return reservas.map((reserva) => reserva['hora'] as String).toList();
+  }
+
+  Future<void> eliminarCita(int id) async {
+    final db = await database;
+    await db.delete(
+      'Cita',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> obtenerCitasPorUsuario(int idUsuario) async {
+    final db = await database;
+    return await db.query(
+      'Cita',
+      where: 'id_usuario = ?',
+      whereArgs: [idUsuario,
+    ]);
+  }
 }

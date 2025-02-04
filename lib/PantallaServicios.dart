@@ -24,7 +24,7 @@ class _PantallaServiciosState extends State<PantallaServicios> {
   // Lista de pantallas
   final List<Widget> _screens = [
     PantallaServiciosContent(),
-    PantallaCalendario(), // Contenido de servicios
+    PantallaCalendario(idUsuario: 1,), // Contenido de servicios
     PantallaPerfil() // Pantalla de perfil
   ];
 
@@ -126,7 +126,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(),
+                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Pérdida de peso y recomposición corporal',),
                           ),
                         );
                       },
@@ -177,7 +177,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas()
+                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Nutrición en patologias deportivas',)
                           ),
                         );
                       },
@@ -228,7 +228,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(),
+                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Alimentación vegetariana y vegana',),
                           ),
                         );
                       },
@@ -279,7 +279,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(),
+                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Nutrición clínica',),
                           ),
                         );
                       },
@@ -330,7 +330,7 @@ class PantallaServiciosContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PantallaCitas(),
+                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Trastornos de la Conducta Alimentaria',),
                           ),
                         );
                       },
