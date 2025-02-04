@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -18,6 +18,9 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
+    // Usar databaseFactoryFfi para soporte en escritorio
+    databaseFactory = databaseFactoryFfi;
+
     try {
       String path = join(await getDatabasesPath(), 'mi_base_de_datos.db');
       return await openDatabase(
@@ -54,7 +57,7 @@ class DatabaseHelper {
       );
     } catch (e) {
       print("Error al inicializar la base de datos: $e");
-      rethrow; // Lanza la excepción para que pueda ser manejada más arriba
+      rethrow;
     }
   }
 
@@ -72,13 +75,23 @@ class DatabaseHelper {
   }
 }
 
-  Future<bool> login(String correo, String contrasena) async {
+Future<bool> existeCorreo(String correo) async {
+  final db = await database;
+  final List<Map<String, dynamic>> maps = await db.query(
+    'Usuario',
+    where: 'correo_electronico = ?',
+    whereArgs: [correo],
+  );
+  return maps.isNotEmpty; // Devuelve true si el correo ya existe
+}
+
+Future<bool> login(String correo, String contrasena) async {
   final db = await database;
   final List<Map<String, dynamic>> maps = await db.query(
     'Usuario',
     where: 'correo_electronico = ? AND contrasena = ?',
     whereArgs: [correo, contrasena],
   );
-  return maps.isNotEmpty; // Verdadero si el usuario existe
+return maps.isNotEmpty; // Verdadero si el usuario existe
 }
 }

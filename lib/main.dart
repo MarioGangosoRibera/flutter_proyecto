@@ -6,7 +6,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   databaseFactory = databaseFactoryFfi; // Inicializa el factory
-
+  sqfliteFfiInit();
   runApp(MyApp());
 }
 

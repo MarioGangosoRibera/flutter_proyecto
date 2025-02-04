@@ -7,6 +7,7 @@ import 'databaseHelper.dart';
 
 class PantallaLogin extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
+  DatabaseHelper dbHelper = DatabaseHelper();
   final TextEditingController correoController = TextEditingController();
   final TextEditingController contrasenaController = TextEditingController();
 
@@ -60,21 +61,22 @@ class PantallaLogin extends StatelessWidget {
                         ElevatedButton.styleFrom(backgroundColor: colorBoton),
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        //Lo voy a poner asi para poder entrar sin que compruebe que este en la base de datos
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PantallaServicios()),
+                        bool success = await dbHelper.login(
+                          correoController.text, 
+                          contrasenaController.text
                         );
 
-                        //Debe ir la logica del iniciar sesion
-                        DatabaseHelper dbHelper = DatabaseHelper();
-                        bool succes = await dbHelper.login(
-                            correoController.text, contrasenaController.text);
-                        if (succes) {
+                        if(success){
+                          //Entra a la pantalla servicios si las credenciales son correctas
+                          Navigator.pushReplacement(
+                            context, 
+                            MaterialPageRoute(builder: (context) => PantallaServicios())
+                        );
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Credenciales incorrectas')));
+                          //Credenciales incorrectas
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Credenciales incorrectas'))
+                          );
                         }
                       }
                     },

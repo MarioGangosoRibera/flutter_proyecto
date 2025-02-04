@@ -3,12 +3,18 @@ import 'package:Proyecto_segundaEv/databaseHelper.dart';
 import 'package:flutter/material.dart';
 import 'Colores.dart';
 
-class PantallaRegistro extends StatelessWidget {
+class PantallaRegistro extends StatefulWidget {
+  @override
+  _PantallaRegistroState createState() => _PantallaRegistroState();
+}
+
+class _PantallaRegistroState extends State<PantallaRegistro>{
   final formKey = GlobalKey<FormState>();
-  final TextEditingController nombreController = TextEditingController();
-  final TextEditingController telefonoController = TextEditingController();
-  final TextEditingController correoController = TextEditingController();
-  final TextEditingController contrasenaController = TextEditingController();
+  final DatabaseHelper _dbHelper = DatabaseHelper();
+  final _nombreController = TextEditingController();
+  final _telefonoController = TextEditingController();
+  final _correoController = TextEditingController();
+  final _contrasenaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,7 @@ class PantallaRegistro extends StatelessWidget {
               Container(
                 width: 300,
                 child: TextFormField(
-                  controller: nombreController,
+                  controller: _nombreController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'El nombre y apellidos debe estar relleno';
@@ -38,7 +44,7 @@ class PantallaRegistro extends StatelessWidget {
               Container(
                 width: 300,
                 child: TextFormField(
-                  controller: correoController,
+                  controller: _correoController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'El correo electrónico debe estar relleno';
@@ -53,7 +59,7 @@ class PantallaRegistro extends StatelessWidget {
               Container(
                 width: 300,
                 child: TextFormField(
-                  controller: telefonoController,
+                  controller: _telefonoController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'El número de telefono debe estar relleno';
@@ -68,7 +74,7 @@ class PantallaRegistro extends StatelessWidget {
               Container(
                 width: 300,
                 child: TextFormField(
-                  controller: contrasenaController,
+                  controller: _contrasenaController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'La contraseña debe estar rellena';
@@ -87,18 +93,32 @@ class PantallaRegistro extends StatelessWidget {
                     style:
                         ElevatedButton.styleFrom(backgroundColor: colorBoton),
                     onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        //Debe ir la logica del resgitrarse
-                        DatabaseHelper dbHelper = DatabaseHelper();
-                        await dbHelper.registrarUsuario(
-                            nombreController.text,
-                            telefonoController.text,
-                            correoController.text,
-                            contrasenaController.text);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PantallaLogin()),
+                      try{
+                        //Verificar si el correo ya existe 
+                        bool correoExiste = await _dbHelper.existeCorreo(_correoController.text);
+                        if(correoExiste){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('El correo electrónico ya está registrado'))
+                          );
+                          return;
+                        }
+                        await _dbHelper.registrarUsuario(
+                          _nombreController.text,
+                          _telefonoController.text,
+                          _correoController.text,
+                          _contrasenaController.text,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Usuario registrado con exito.'))
+                        );
+                        //Limpiar los campos después del registro
+                        _nombreController.clear();
+                        _telefonoController.clear();
+                        _correoController.clear();
+                        _contrasenaController.clear();
+                      } catch (e){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error al registrar el usuario: $e'))
                         );
                       }
                     },
