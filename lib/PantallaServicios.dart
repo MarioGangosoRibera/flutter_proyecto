@@ -5,7 +5,6 @@ import 'PantallaPerfil.dart';
 import 'PantallaCitas.dart';
 
 class PantallaServicios extends StatefulWidget {
-
   final List<String> servicios = [
     'Pérdida de peso y recomposición corporal',
     'Nutrición en patologias deportivas',
@@ -24,7 +23,9 @@ class _PantallaServiciosState extends State<PantallaServicios> {
   // Lista de pantallas
   final List<Widget> _screens = [
     PantallaServiciosContent(),
-    PantallaCalendario(idUsuario: 1,), // Contenido de servicios
+    PantallaCalendario(
+      idUsuario: 1,
+    ), // Contenido de servicios
     PantallaPerfil() // Pantalla de perfil
   ];
 
@@ -60,13 +61,12 @@ class _PantallaServiciosState extends State<PantallaServicios> {
     );
   }
 }
-  
-class PantallaServiciosContent extends StatelessWidget {
 
+class PantallaServiciosContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Column(
@@ -80,315 +80,311 @@ class PantallaServiciosContent extends StatelessWidget {
                   SizedBox(width: 10),
                   Text(
                     'Mis servicios',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold
-                    ),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               SizedBox(height: 20), //Espacio entre el titulo y la card
               Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: 250,
-                      decoration: BoxDecoration(
-                         borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                        image: DecorationImage(
-                          image: AssetImage('assets/imagenes/Servicio1.jpg'),
-                          fit: BoxFit.cover,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(15)),
+                          image: DecorationImage(
+                            image: AssetImage('assets/imagenes/Servicio1.jpg'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
+                      Container(
                         width: 250,
                         child: Text(
-                        'Pérdida de peso y recomposición corporal',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          'Pérdida de peso y recomposición corporal',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                      ), 
-                    // Botón debajo del texto
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colorBoton
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Pérdida de peso y recomposición corporal',),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Pedir cita',
-                        style: TextStyle(color: colorLetraB),
+                      // Botón debajo del texto
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorBoton),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PantallaCitas(
+                                servicioSeleccionado:
+                                    'Pérdida de peso y recomposición corporal',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Pedir cita',
+                          style: TextStyle(color: colorLetraB),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                )
-              ),
+                      SizedBox(height: 10),
+                    ],
+                  )),
               Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: 250,
-                      decoration: BoxDecoration(
-                         borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                        image: DecorationImage(
-                          image: AssetImage('assets/imagenes/Servicio2.jpg'),
-                          fit: BoxFit.cover,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(15)),
+                          image: DecorationImage(
+                            image: AssetImage('assets/imagenes/Servicio2.jpg'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
+                      Container(
                         width: 250,
                         child: Text(
-                        'Nutrición en patologias deportivas',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          'Nutrición en patologias deportivas',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                      ), 
-                    // Botón debajo del texto
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colorBoton
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Nutrición en patologias deportivas',)
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Pedir cita',
-                        style: TextStyle(color: colorLetraB),
+                      // Botón debajo del texto
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorBoton),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PantallaCitas(
+                                      servicioSeleccionado:
+                                          'Nutrición en patologias deportivas',
+                                    )),
+                          );
+                        },
+                        child: Text(
+                          'Pedir cita',
+                          style: TextStyle(color: colorLetraB),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                )
-              ),
+                      SizedBox(height: 10),
+                    ],
+                  )),
               Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: 250,
-                      decoration: BoxDecoration(
-                         borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                        image: DecorationImage(
-                          image: AssetImage('assets/imagenes/Servicio3.jpg'),
-                          fit: BoxFit.cover,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(15)),
+                          image: DecorationImage(
+                            image: AssetImage('assets/imagenes/Servicio3.jpg'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
+                      Container(
                         width: 250,
                         child: Text(
-                        'Alimentación vegetariana y vegana',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          'Alimentación vegetariana y vegana',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                      ), 
-                    // Botón debajo del texto
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colorBoton
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Alimentación vegetariana y vegana',),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Pedir cita',
-                        style: TextStyle(color: colorLetraB),
+                      // Botón debajo del texto
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorBoton),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PantallaCitas(
+                                servicioSeleccionado:
+                                    'Alimentación vegetariana y vegana',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Pedir cita',
+                          style: TextStyle(color: colorLetraB),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                )
-              ),
+                      SizedBox(height: 10),
+                    ],
+                  )),
               Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: 250,
-                      decoration: BoxDecoration(
-                         borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                        image: DecorationImage(
-                          image: AssetImage('assets/imagenes/Servicio4.jpg'),
-                          fit: BoxFit.cover,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(15)),
+                          image: DecorationImage(
+                            image: AssetImage('assets/imagenes/Servicio4.jpg'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
+                      Container(
                         width: 250,
                         child: Text(
-                        'Nutrición clínica',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          'Nutrición clínica',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                      ), 
-                    // Botón debajo del texto
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colorBoton
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Nutrición clínica',),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Pedir cita',
-                        style: TextStyle(color: colorLetraB),
+                      // Botón debajo del texto
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorBoton),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PantallaCitas(
+                                servicioSeleccionado: 'Nutrición clínica',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Pedir cita',
+                          style: TextStyle(color: colorLetraB),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                )
-              ),
+                      SizedBox(height: 10),
+                    ],
+                  )),
               Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: 250,
-                      decoration: BoxDecoration(
-                         borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                        image: DecorationImage(
-                          image: AssetImage('assets/imagenes/Servicio5.jpg'),
-                          fit: BoxFit.cover,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(15)),
+                          image: DecorationImage(
+                            image: AssetImage('assets/imagenes/Servicio5.jpg'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
+                      Container(
                         width: 250,
                         child: Text(
-                        'Trastornos de la Conducta Alimentaria',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          'Trastornos de la Conducta Alimentaria',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                      ), 
-                    // Botón debajo del texto
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colorBoton
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PantallaCitas(servicioSeleccionado: 'Trastornos de la Conducta Alimentaria',),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Pedir cita',
-                        style: TextStyle(color: colorLetraB),
+                      // Botón debajo del texto
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorBoton),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PantallaCitas(
+                                servicioSeleccionado:
+                                    'Trastornos de la Conducta Alimentaria',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Pedir cita',
+                          style: TextStyle(color: colorLetraB),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                )
-              ),
+                      SizedBox(height: 10),
+                    ],
+                  )),
               Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 200,
-                      width: 250,
-                      decoration: BoxDecoration(
-                         borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                        image: DecorationImage(
-                          image: AssetImage('assets/imagenes/Servicio6.jpg'),
-                          fit: BoxFit.cover,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(15)),
+                          image: DecorationImage(
+                            image: AssetImage('assets/imagenes/Servicio6.jpg'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
+                      Container(
                         width: 250,
                         child: Text(
-                        'Charlas y talleres de educación alimentaria',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          'Charlas y talleres de educación alimentaria',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ),
-                      ), 
-                    // Botón debajo del texto
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colorBoton
                       ),
-                      onPressed: () {
-                        
-                      },
-                      child: Text(
-                        'Pedir cita',
-                        style: TextStyle(color: colorLetraB),
+                      // Botón debajo del texto
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: colorBoton),
+                        onPressed: () {},
+                        child: Text(
+                          'Pedir cita',
+                          style: TextStyle(color: colorLetraB),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                )
-              ),
+                      SizedBox(height: 10),
+                    ],
+                  )),
             ],
           ),
         ),

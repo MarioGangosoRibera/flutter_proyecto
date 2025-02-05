@@ -53,6 +53,14 @@ class DatabaseHelper {
               FOREIGN KEY (id_servicio) REFERENCES Servicios(id_servicio)
             )
           ''');
+          await db.execute('''
+            CREATE TABLE Sesion(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              token TEXT,
+              id_usuario INTEGER,
+              is_logged_in INTEGER
+            )
+          ''');
         },
       );
     } catch (e) {
@@ -61,7 +69,8 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> registrarUsuario(String nombre_apellidos, String telefono, String correo, String contrasena) async {
+  Future<void> registrarUsuario(String nombre_apellidos, String telefono,
+      String correo, String contrasena) async {
     final db = await database;
     try {
       await db.insert('Usuario', {
@@ -92,7 +101,7 @@ class DatabaseHelper {
       where: 'correo_electronico = ? AND contrasena = ?',
       whereArgs: [correo, contrasena],
     );
-  return maps.isNotEmpty; // Verdadero si el usuario existe
+    return maps.isNotEmpty; // Verdadero si el usuario existe
   }
 
   Future<void> registrarCita({
@@ -131,12 +140,25 @@ class DatabaseHelper {
     );
   }
 
-  Future<List<Map<String, dynamic>>> obtenerCitasPorUsuario(int idUsuario) async {
+  Future<List<Map<String, dynamic>>> obtenerCitasPorUsuario(
+      int idUsuario) async {
     final db = await database;
-    return await db.query(
-      'Cita',
-      where: 'id_usuario = ?',
-      whereArgs: [idUsuario,
+    return await db.query('Cita', where: 'id_usuario = ?', whereArgs: [
+      idUsuario,
     ]);
+  }
+
+  Future<void> cerrarSesion() async {
+    final db = await database;
+
+    await db.update(
+      'Sesion',
+      {
+        'token': null,
+        'is_logged_in': 0
+      }, // Limpia el token y marca como no logueado
+      where: 'id = ?', // O si solo hay un único registro de sesión
+      whereArgs: [1],
+    );
   }
 }
