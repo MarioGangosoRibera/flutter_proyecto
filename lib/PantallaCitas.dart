@@ -15,6 +15,7 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
   late DateTime _selectedDay;
   late String _selectedService;
   List<String> _availableHours = []; // Lista de horas disponibles
+  List<Map<String, dynamic>> _citasReservadas = []; //LIsta de citas reservadas 
 
   @override
   void initState() {
@@ -22,14 +23,16 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
     _selectedDay = DateTime.now();
     _selectedService = widget.servicioSeleccionado; // Servicio seleccionado
     _fetchAvailableHours(); // Cargar horas disponibles
+    _fetchCitasReservadas();
   }
+  
 
   void _fetchAvailableHours() async {
     // Obtener las horas reservadas para el día seleccionado
     List<String> horasReservadas = await DatabaseHelper().obtenerHorasReservadas(_selectedDay);
 
     // Definir todas las horas posibles
-    List<String> todasLasHoras = ['09:00', '10:00', '11:00', '14:00', '15:00'];
+    List<String> todasLasHoras = ['09:00', '10:00', '11:00', '12:00', '13:00', '16:00', '17:00', '18:00'];
 
     // Filtrar las horas disponibles
     setState(() {
@@ -37,25 +40,38 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
     });
   }
 
+  _fetchCitasReservadas() async{
+    //Obtener las ciyas reservadas para el usuario actual
+    List<Map<String, dynamic>> citas = await DatabaseHelper().obtenerCitasPorUsuario(1);
+    setState(() {
+      _citasReservadas = citas;
+    });
+  }
+
   void _saveAppointment(String hour) async {
     // Guarda la cita en la base de datos
     DatabaseHelper dbHelper = DatabaseHelper();
-    await dbHelper.registrarCita(
+    bool disponible = await dbHelper.verificarDisponibilidad(_selectedDay, hour);
+    if(disponible){
+      //Guarda la cita si esta disponible
+      await dbHelper.registrarCita(
       fecha: _selectedDay.toIso8601String(),
       hora: hour,
       idUsuario: 1, // Cambia esto por el ID del usuario actual
       idServicio: 1, // Cambia esto por el ID del servicio seleccionado
     );
-
-    // Mostrar un mensaje de éxito
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Cita guardada con éxito')),
+      SnackBar(content: Text('Cita guardada con éxito'))
     );
-
-    // Regresar a la pantalla anterior o hacer otra acción
+    _fetchCitasReservadas();
     Navigator.pop(context);
+    } else {
+      //Si la hora no esta disponible
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('La hora seleccionada ya está reservada'))
+      );
+    }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +81,7 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
       body: Column(
         children: [
           TableCalendar(
-            firstDay: DateTime.utc(2020, 1, 1),
+            firstDay: DateTime.utc(2025, 1, 1),
             lastDay: DateTime.utc(2030, 12, 31),
             focusedDay: _selectedDay,
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
@@ -105,6 +121,21 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
                   onTap: () {
                     _saveAppointment(_availableHours[index]); // Guardar cita al seleccionar hora
                   },
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _citasReservadas.length,
+              itemBuilder: (context, index) {
+                final cita = _citasReservadas[index];
+                return Card(
+                  margin: EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Text('Servicio: ${cita['nombre_servicio']}'), // Cambia esto por el nombre del servicio
+                    subtitle: Text('Fecha: ${cita['fecha']}, Hora: ${cita['hora']}'),
+                  ),
                 );
               },
             ),

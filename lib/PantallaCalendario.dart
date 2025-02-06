@@ -61,7 +61,7 @@ class _PantallaCalendarioState extends State<PantallaCalendario> {
           return Card(
             margin: EdgeInsets.all(8.0),
             child: ListTile(
-              title: Text('Servicio: ${cita['id_servicio']}'), // Cambia esto por el nombre del servicio
+              title: Text('Servicio: ${cita['nombre_servicio']}'), // Cambia esto por el nombre del servicio
               subtitle: Text('Fecha: ${cita['fecha']}, Hora: ${cita['hora']}'),
               trailing: IconButton(
                 icon: Icon(Icons.delete, color: Colors.red),

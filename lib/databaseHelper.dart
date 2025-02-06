@@ -140,13 +140,15 @@ class DatabaseHelper {
     );
   }
 
-  Future<List<Map<String, dynamic>>> obtenerCitasPorUsuario(
-      int idUsuario) async {
-    final db = await database;
-    return await db.query('Cita', where: 'id_usuario = ?', whereArgs: [
-      idUsuario,
-    ]);
-  }
+  Future<List<Map<String, dynamic>>> obtenerCitasPorUsuario(int idUsuario) async {
+  final db = await database;
+  return await db.rawQuery('''
+    SELECT Cita.fecha, Cita.hora, Servicios.nombre_servicio
+    FROM Cita
+    JOIN Servicios ON Cita.id_servicio = Servicios.id_servicio
+    WHERE Cita.id_usuario = ?
+  ''', [idUsuario]);
+}
 
   Future<void> cerrarSesion() async {
     final db = await database;
@@ -160,5 +162,16 @@ class DatabaseHelper {
       where: 'id = ?', // O si solo hay un único registro de sesión
       whereArgs: [1],
     );
+  }
+
+  Future<bool> verificarDisponibilidad(DateTime fecha, String hora) async {
+    final db = await database;
+    final List<Map<String, dynamic>> citas = await db.query(
+      'Cita',
+      where: 'fecha = ? AND hora = ?',
+      whereArgs: [fecha.toIso8601String(), hora],
+    );
+
+    return citas.isEmpty; // Si no hay citas, la hora está disponible
   }
 }
