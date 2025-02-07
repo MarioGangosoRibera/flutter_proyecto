@@ -1,6 +1,6 @@
 import 'package:Proyecto_segundaEv/Colores.dart';
 import 'package:flutter/material.dart';
-import 'PantallaCalendario.dart';
+import 'PantallaCalendarioCitas.dart';
 import 'PantallaPerfil.dart';
 import 'PantallaCitas.dart';
 
@@ -23,7 +23,7 @@ class _PantallaServiciosState extends State<PantallaServicios> {
   // Lista de pantallas
   final List<Widget> _screens = [
     PantallaServiciosContent(),
-    PantallaCalendario(
+    PantallaCalendarioCitas(
       idUsuario: 1,
     ), // Contenido de servicios
     PantallaPerfil() // Pantalla de perfil
@@ -125,6 +125,7 @@ class PantallaServiciosContent extends StatelessWidget {
                               builder: (context) => PantallaCitas(
                                 servicioSeleccionado:
                                     'Pérdida de peso y recomposición corporal',
+                                idUsuario: 1,
                               ),
                             ),
                           );
@@ -177,6 +178,7 @@ class PantallaServiciosContent extends StatelessWidget {
                                 builder: (context) => PantallaCitas(
                                       servicioSeleccionado:
                                           'Nutrición en patologias deportivas',
+                                      idUsuario: 1,
                                     )),
                           );
                         },
@@ -228,6 +230,7 @@ class PantallaServiciosContent extends StatelessWidget {
                               builder: (context) => PantallaCitas(
                                 servicioSeleccionado:
                                     'Alimentación vegetariana y vegana',
+                                idUsuario: 1,
                               ),
                             ),
                           );
@@ -279,6 +282,7 @@ class PantallaServiciosContent extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => PantallaCitas(
                                 servicioSeleccionado: 'Nutrición clínica',
+                                idUsuario: 1,
                               ),
                             ),
                           );
@@ -331,6 +335,7 @@ class PantallaServiciosContent extends StatelessWidget {
                               builder: (context) => PantallaCitas(
                                 servicioSeleccionado:
                                     'Trastornos de la Conducta Alimentaria',
+                                idUsuario: 1,
                               ),
                             ),
                           );

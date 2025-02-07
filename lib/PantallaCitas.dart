@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'databaseHelper.dart'; // Asegúrate de importar tu helper de base de datos
+import 'databaseHelper.dart';
+import 'Colores.dart';
 
 class PantallaCitas extends StatefulWidget {
-  final String servicioSeleccionado; // Servicio pasado desde la pantalla anterior
+  final String servicioSeleccionado;
+  final int idUsuario;
 
-  PantallaCitas({required this.servicioSeleccionado});
+  PantallaCitas({
+    required this.servicioSeleccionado,
+    required this.idUsuario,
+  });
 
   @override
   _PantallaPedirCitaState createState() => _PantallaPedirCitaState();
@@ -15,7 +20,7 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
   late DateTime _selectedDay;
   late String _selectedService;
   List<String> _availableHours = []; // Lista de horas disponibles
-  List<Map<String, dynamic>> _citasReservadas = []; //LIsta de citas reservadas 
+  List<Map<String, dynamic>> _citasReservadas = []; //LIsta de citas reservadas
 
   @override
   void initState() {
@@ -25,58 +30,79 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
     _fetchAvailableHours(); // Cargar horas disponibles
     _fetchCitasReservadas();
   }
-  
 
   void _fetchAvailableHours() async {
     // Obtener las horas reservadas para el día seleccionado
-    List<String> horasReservadas = await DatabaseHelper().obtenerHorasReservadas(_selectedDay);
+    List<String> horasReservadas =
+        await DatabaseHelper().obtenerHorasReservadas(_selectedDay);
 
     // Definir todas las horas posibles
-    List<String> todasLasHoras = ['09:00', '10:00', '11:00', '12:00', '13:00', '16:00', '17:00', '18:00'];
+    List<String> todasLasHoras = [
+      '09:00',
+      '10:00',
+      '11:00',
+      '12:00',
+      '13:00',
+      '16:00',
+      '17:00',
+      '18:00'
+    ];
 
     // Filtrar las horas disponibles
     setState(() {
-      _availableHours = todasLasHoras.where((hora) => !horasReservadas.contains(hora)).toList();
+      _availableHours = todasLasHoras
+          .where((hora) => !horasReservadas.contains(hora))
+          .toList();
     });
   }
 
-  _fetchCitasReservadas() async{
+  _fetchCitasReservadas() async {
     //Obtener las ciyas reservadas para el usuario actual
-    List<Map<String, dynamic>> citas = await DatabaseHelper().obtenerCitasPorUsuario(1);
+    List<Map<String, dynamic>> citas =
+        await DatabaseHelper().obtenerCitasPorUsuario(1);
     setState(() {
       _citasReservadas = citas;
     });
   }
 
   void _saveAppointment(String hour) async {
-    // Guarda la cita en la base de datos
     DatabaseHelper dbHelper = DatabaseHelper();
-    bool disponible = await dbHelper.verificarDisponibilidad(_selectedDay, hour);
-    if(disponible){
-      //Guarda la cita si esta disponible
-      await dbHelper.registrarCita(
-      fecha: _selectedDay.toIso8601String(),
-      hora: hour,
-      idUsuario: 1, // Cambia esto por el ID del usuario actual
-      idServicio: 1, // Cambia esto por el ID del servicio seleccionado
-    );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Cita guardada con éxito'))
-    );
-    _fetchCitasReservadas();
-    Navigator.pop(context);
+    bool disponible =
+        await dbHelper.verificarDisponibilidad(_selectedDay, hour);
+
+    if (disponible) {
+      try {
+        // Obtener el ID del servicio seleccionado
+        int idServicio = await dbHelper.obtenerIdServicio(_selectedService);
+
+        await dbHelper.registrarCita(
+          fecha: _selectedDay.toIso8601String(),
+          hora: hour,
+          idServicio: idServicio,
+          nombreServicio: '',
+          idUsuario: 1,
+        );
+
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Cita guardada con éxito')));
+        Navigator.pop(context);
+      } catch (e) {
+        print("Error al guardar la cita: $e");
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error al guardar la cita')));
+      }
     } else {
-      //Si la hora no esta disponible
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('La hora seleccionada ya está reservada'))
-      );
+          SnackBar(content: Text('Esta hora ya no está disponible')));
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title : Text('Pedir Cita'),
+        backgroundColor: colorFondo,
+        title: Text('Pedir Cita'),
       ),
       body: Column(
         children: [
@@ -119,23 +145,9 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
                 return ListTile(
                   title: Text(_availableHours[index]),
                   onTap: () {
-                    _saveAppointment(_availableHours[index]); // Guardar cita al seleccionar hora
+                    _saveAppointment(_availableHours[
+                        index]); // Guardar cita al seleccionar hora
                   },
-                );
-              },
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _citasReservadas.length,
-              itemBuilder: (context, index) {
-                final cita = _citasReservadas[index];
-                return Card(
-                  margin: EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text('Servicio: ${cita['nombre_servicio']}'), // Cambia esto por el nombre del servicio
-                    subtitle: Text('Fecha: ${cita['fecha']}, Hora: ${cita['hora']}'),
-                  ),
                 );
               },
             ),

@@ -104,19 +104,23 @@ class DatabaseHelper {
     return maps.isNotEmpty; // Verdadero si el usuario existe
   }
 
-  Future<void> registrarCita({
+  Future<int> registrarCita({
     required String fecha,
     required String hora,
     required int idUsuario,
-    required int idServicio,
+    required String nombreServicio, required int idServicio,
   }) async {
-    final db = await database; // Obtén la base de datos
-    await db.insert('Cita', {
+    final db = await database;
+    final idServicio = await obtenerIdServicio(nombreServicio);
+
+    final id = await db.insert('Cita', {
       'fecha': fecha,
       'hora': hora,
       'id_usuario': idUsuario,
       'id_servicio': idServicio,
     });
+
+    return id;
   }
 
   Future<List<String>> obtenerHorasReservadas(DateTime fecha) async {
@@ -140,15 +144,29 @@ class DatabaseHelper {
     );
   }
 
-  Future<List<Map<String, dynamic>>> obtenerCitasPorUsuario(int idUsuario) async {
-  final db = await database;
-  return await db.rawQuery('''
-    SELECT Cita.fecha, Cita.hora, Servicios.nombre_servicio
-    FROM Cita
-    JOIN Servicios ON Cita.id_servicio = Servicios.id_servicio
-    WHERE Cita.id_usuario = ?
-  ''', [idUsuario]);
-}
+  Future<List<Map<String, dynamic>>> obtenerCitasPorUsuario(
+      int idUsuario) async {
+    final db = await database;
+    try {
+      final List<Map<String, dynamic>> result = await db.rawQuery('''
+      SELECT 
+        Cita.id_cita,
+        Cita.fecha,
+        Cita.hora,
+        Servicios.nombre_servicio
+      FROM Cita
+      INNER JOIN Servicios ON Cita.id_servicio = Servicios.id_servicio
+      WHERE Cita.id_usuario = ?
+      ORDER BY Cita.fecha DESC, Cita.hora ASC
+    ''', [idUsuario]);
+
+      print("Citas obtenidas: $result"); // Para depuración
+      return result;
+    } catch (e) {
+      print("Error al obtener citas: $e");
+      return [];
+    }
+  }
 
   Future<void> cerrarSesion() async {
     final db = await database;
@@ -173,5 +191,23 @@ class DatabaseHelper {
     );
 
     return citas.isEmpty; // Si no hay citas, la hora está disponible
+  }
+
+  Future<int> obtenerIdServicio(String nombreServicio) async {
+    final db = await database;
+    final List<Map<String, dynamic>> result = await db.query(
+      'Servicios',
+      where: 'nombre_servicio = ?',
+      whereArgs: [nombreServicio],
+    );
+
+    if (result.isEmpty) {
+      // Si el servicio no existe, lo creamos
+      final id =
+          await db.insert('Servicios', {'nombre_servicio': nombreServicio});
+      return id;
+    }
+
+    return result.first['id_servicio'];
   }
 }
