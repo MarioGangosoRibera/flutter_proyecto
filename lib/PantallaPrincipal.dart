@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'PantallaLogin.dart';
 import 'PantallaResgistro.dart';
 import 'Colores.dart';
 
-class PantallaPrincipal extends StatelessWidget{
+/// PantallaPrincipal es un widget que sirve como la pantalla de inicio de la aplicación.
+/// Proporciona opciones para iniciar sesión o registrarse.
+class PantallaPrincipal extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
@@ -17,11 +18,11 @@ class PantallaPrincipal extends StatelessWidget{
             SizedBox(height: 10),
             Container(
               width: 200,
-              child:ElevatedButton(
+              child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: colorBoton
+                  backgroundColor: colorBoton,
                 ),
-                onPressed: (){
+                onPressed: () {
                   Navigator.push(
                     context, 
                     MaterialPageRoute(builder: (context) => PantallaLogin()),
@@ -29,7 +30,7 @@ class PantallaPrincipal extends StatelessWidget{
                 },
                 child: Text(
                   'Iniciar sesión',
-                  style: TextStyle(color: colorLetraB)
+                  style: TextStyle(color: colorLetraB),
                 ),
               ),
             ),
@@ -38,17 +39,17 @@ class PantallaPrincipal extends StatelessWidget{
               width: 200,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: colorBoton
+                  backgroundColor: colorBoton,
                 ),
-                onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PantallaRegistro()),
-                );
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PantallaRegistro()),
+                  );
                 },
                 child: Text(
                   'Registrarse',
-                  style: TextStyle(color: colorLetraB)
+                  style: TextStyle(color: colorLetraB),
                 ),
               ),
             ),
@@ -57,5 +58,4 @@ class PantallaPrincipal extends StatelessWidget{
       ),
     );
   }
-
 }

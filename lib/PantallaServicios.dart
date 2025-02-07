@@ -4,6 +4,9 @@ import 'PantallaCalendarioCitas.dart';
 import 'PantallaPerfil.dart';
 import 'PantallaCitas.dart';
 
+/// PantallaServicios es un widget que muestra una lista de servicios
+/// disponibles y permite a los usuarios seleccionar un servicio para
+/// pedir una cita o ver su perfil.
 class PantallaServicios extends StatefulWidget {
   final List<String> servicios = [
     'Pérdida de peso y recomposición corporal',
@@ -25,10 +28,11 @@ class _PantallaServiciosState extends State<PantallaServicios> {
     PantallaServiciosContent(),
     PantallaCalendarioCitas(
       idUsuario: 1,
-    ), // Contenido de servicios
-    PantallaPerfil() // Pantalla de perfil
+    ),
+    PantallaPerfil()
   ];
 
+/// Cambia la pantalla mostrada según el índice seleccionado en la barra de navegación.
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -62,6 +66,8 @@ class _PantallaServiciosState extends State<PantallaServicios> {
   }
 }
 
+/// PantallaServiciosContent es un widget que muestra el contenido de los servicios
+/// disponibles, incluyendo imágenes y botones para pedir citas.
 class PantallaServiciosContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -84,7 +90,7 @@ class PantallaServiciosContent extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20), //Espacio entre el titulo y la card
+              SizedBox(height: 20),
               Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)),
@@ -114,7 +120,6 @@ class PantallaServiciosContent extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      // Botón debajo del texto
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: colorBoton),
@@ -167,7 +172,6 @@ class PantallaServiciosContent extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      // Botón debajo del texto
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: colorBoton),
@@ -272,7 +276,6 @@ class PantallaServiciosContent extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      // Botón debajo del texto
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: colorBoton),
@@ -324,7 +327,6 @@ class PantallaServiciosContent extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      // Botón debajo del texto
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: colorBoton),
@@ -379,7 +381,8 @@ class PantallaServiciosContent extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                     ],
-                  )),
+                  )
+                ),
             ],
           ),
         ),

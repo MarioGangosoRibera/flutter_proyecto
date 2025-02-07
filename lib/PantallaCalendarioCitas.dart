@@ -3,7 +3,12 @@ import 'package:intl/intl.dart';
 import 'Colores.dart';
 import 'databaseHelper.dart';
 
+/// PantallaCalendarioCitas es un widget que muestra un calendario de citas
+/// para un usuario específico. Permite mostrar y eliminar citas.
 class PantallaCalendarioCitas extends StatefulWidget {
+  /// Crea una instancia de [PantallaCalendarioCitas].
+  /// 
+  /// Requiere el [idUsuario] que identifica al usuario cuyas citas se mostrarán.
   final int idUsuario;
 
   PantallaCalendarioCitas({required this.idUsuario});
@@ -14,8 +19,13 @@ class PantallaCalendarioCitas extends StatefulWidget {
 }
 
 class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
+  /// Lista que contiene las citas del usuario.
   List<Map<String, dynamic>> _citas = [];
+
+  /// Indica si las citas están siendo cargadas.
   bool _isLoading = true;
+
+  /// Instancia de [DatabaseHelper] para interactuar con la base de datos.
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
   @override
@@ -24,6 +34,7 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
     _cargarCitas();
   }
 
+  /// Carga las citas del usuario desde la base de datos.
   Future<void> _cargarCitas() async {
     setState(() {
       _isLoading = true;
@@ -44,6 +55,9 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
     }
   }
 
+  /// Muestra un mensaje de error en un [SnackBar].
+  ///
+  /// [mensaje] es el texto que se mostrará en el [SnackBar].
   void _mostrarError(String mensaje) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -53,6 +67,10 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
     );
   }
 
+  /// Formatea una fecha en formato 'dd/MM/yyyy'.
+  ///
+  /// [fecha] es la fecha en formato String que se desea formatear.
+  /// Retorna la fecha formateada o la fecha original en caso de error.
   String _formatearFecha(String fecha) {
     try {
       final DateTime fechaDateTime = DateTime.parse(fecha);
@@ -62,6 +80,9 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
     }
   }
 
+  /// Elimina una cita de la base de datos.
+  ///
+  /// [idCita] es el identificador de la cita que se desea eliminar.
   Future<void> _eliminarCita(int idCita) async {
     try {
       await _dbHelper.eliminarCita(idCita);
@@ -71,12 +92,18 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
     }
   }
 
+  /// Muestra un mensaje en un [SnackBar].
+  ///
+  /// [mensaje] es el texto que se mostrará en el [SnackBar].
   void _mostrarMensaje(String mensaje) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(mensaje)),
     );
   }
 
+  /// Construye una tarjeta que representa una cita.
+  ///
+  /// [cita] es un mapa que contiene la información de la cita.
   Widget _construirTarjetaCita(Map<String, dynamic> cita) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -92,7 +119,7 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
             end: Alignment.bottomRight,
             colors: [
               colorFondo.withOpacity(0.2),
-              Colors.white,
+              colorTarjeta,
             ],
           ),
         ),

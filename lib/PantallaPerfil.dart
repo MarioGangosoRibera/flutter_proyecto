@@ -3,8 +3,13 @@ import 'Colores.dart';
 import 'PantallaPrincipal.dart';
 import 'databaseHelper.dart';
 
+/// PantallaPerfil es un widget que muestra la información del perfil del usuario,
+/// incluyendo el correo electrónico, teléfono y dirección de consulta.
+/// También permite al usuario cerrar sesión.
 class PantallaPerfil extends StatelessWidget {
+  /// Instancia de [DatabaseHelper] para interactuar con la base de datos.
   DatabaseHelper dbHelper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +51,7 @@ class PantallaPerfil extends StatelessWidget {
                     style:
                         ElevatedButton.styleFrom(backgroundColor: colorBoton),
                     onPressed: () {
+                      // Cierra la sesión y navega a la pantalla principal
                       dbHelper.cerrarSesion();
                       Navigator.push(
                         context,
@@ -54,9 +60,11 @@ class PantallaPerfil extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      'Cerrar sesion',
+                      'Cerrar sesión',
                       style: TextStyle(color: colorLetraB),
-                    )))
+                    )
+                  )
+                )
           ],
         ),
       ),

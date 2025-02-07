@@ -3,12 +3,20 @@ import 'package:Proyecto_segundaEv/databaseHelper.dart';
 import 'package:flutter/material.dart';
 import 'Colores.dart';
 import 'PantallaServicios.dart';
-import 'databaseHelper.dart';
 
+/// PantallaLogin es un widget que permite a los usuarios iniciar sesión
+/// en la aplicación utilizando su correo electrónico y contraseña.
 class PantallaLogin extends StatelessWidget {
+  /// Clave global para el formulario.
   final formKey = GlobalKey<FormState>();
+
+  /// Instancia de [DatabaseHelper] para interactuar con la base de datos.
   DatabaseHelper dbHelper = DatabaseHelper();
+
+  /// Controlador para el campo de texto del correo electrónico.
   final TextEditingController correoController = TextEditingController();
+
+  /// Controlador para el campo de texto de la contraseña.
   final TextEditingController contrasenaController = TextEditingController();
 
   @override
@@ -21,6 +29,7 @@ class PantallaLogin extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/imagenes/LogoAlba.png', height: 200),
+              
               Container(
                 width: 300,
                 child: TextFormField(
@@ -35,9 +44,8 @@ class PantallaLogin extends StatelessWidget {
                       labelText: 'Correo electrónico', filled: true),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
+              
               Container(
                 width: 300,
                 child: TextFormField(
@@ -54,6 +62,7 @@ class PantallaLogin extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
+              
               Container(
                 width: 200,
                 child: ElevatedButton(
@@ -61,19 +70,20 @@ class PantallaLogin extends StatelessWidget {
                         ElevatedButton.styleFrom(backgroundColor: colorBoton),
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
+                        // Intenta iniciar sesión con las credenciales proporcionadas
                         bool success = await dbHelper.login(
                           correoController.text, 
                           contrasenaController.text
                         );
 
                         if(success){
-                          //Entra a la pantalla servicios si las credenciales son correctas
+                          // Entra a la pantalla de servicios si las credenciales son correctas
                           Navigator.pushReplacement(
                             context, 
                             MaterialPageRoute(builder: (context) => PantallaServicios())
                         );
                         } else {
-                          //Credenciales incorrectas
+                          // Muestra un mensaje de error si las credenciales son incorrectas
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Credenciales incorrectas'))
                           );
@@ -83,6 +93,7 @@ class PantallaLogin extends StatelessWidget {
                     child: Text('Iniciar sesión',
                         style: TextStyle(color: colorLetraB))),
               ),
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

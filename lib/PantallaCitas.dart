@@ -3,7 +3,13 @@ import 'package:table_calendar/table_calendar.dart';
 import 'databaseHelper.dart';
 import 'Colores.dart';
 
+/// PantallaCitas es un widget que permite a los usuarios seleccionar una fecha
+/// y hora para reservar una cita para un servicio específico.
 class PantallaCitas extends StatefulWidget {
+  /// Crea una instancia de [PantallaCitas].
+  ///
+  /// Requiere el [servicioSeleccionado] que indica el servicio para el cual
+  /// se está pidiendo la cita y el [idUsuario] que identifica al usuario.
   final String servicioSeleccionado;
   final int idUsuario;
 
@@ -17,26 +23,34 @@ class PantallaCitas extends StatefulWidget {
 }
 
 class _PantallaPedirCitaState extends State<PantallaCitas> {
+  /// Día seleccionado para la cita.
   late DateTime _selectedDay;
+
+  /// Servicio seleccionado por el usuario.
   late String _selectedService;
-  List<String> _availableHours = []; // Lista de horas disponibles
-  List<Map<String, dynamic>> _citasReservadas = []; //LIsta de citas reservadas
+
+  /// Lista de horas disponibles para reservar.
+  List<String> _availableHours = [];
+
+  /// Lista de citas reservadas por el usuario.
+  List<Map<String, dynamic>> _citasReservadas = [];
 
   @override
   void initState() {
     super.initState();
-    _selectedDay = DateTime.now();
-    _selectedService = widget.servicioSeleccionado; // Servicio seleccionado
-    _fetchAvailableHours(); // Cargar horas disponibles
-    _fetchCitasReservadas();
+    _selectedDay = DateTime.now(); // Inicializa el día seleccionado a hoy.
+    _selectedService = widget.servicioSeleccionado; // Servicio seleccionado.
+    _buscarHorasDisponibles(); // Cargar horas disponibles.
+    _buscarCitasReservadas(); // Cargar citas reservadas.
   }
 
-  void _fetchAvailableHours() async {
-    // Obtener las horas reservadas para el día seleccionado
+  /// Obtiene las horas disponibles para el día seleccionado.
+  void _buscarHorasDisponibles() async {
+    // Obtener las horas reservadas para el día seleccionado.
     List<String> horasReservadas =
         await DatabaseHelper().obtenerHorasReservadas(_selectedDay);
 
-    // Definir todas las horas posibles
+    // Definir todas las horas posibles.
     List<String> todasLasHoras = [
       '09:00',
       '10:00',
@@ -48,7 +62,7 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
       '18:00'
     ];
 
-    // Filtrar las horas disponibles
+    // Filtrar las horas disponibles.
     setState(() {
       _availableHours = todasLasHoras
           .where((hora) => !horasReservadas.contains(hora))
@@ -56,16 +70,19 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
     });
   }
 
-  _fetchCitasReservadas() async {
-    //Obtener las ciyas reservadas para el usuario actual
+  /// Obtiene las citas reservadas para el usuario actual.
+  _buscarCitasReservadas() async {
     List<Map<String, dynamic>> citas =
-        await DatabaseHelper().obtenerCitasPorUsuario(1);
+        await DatabaseHelper().obtenerCitasPorUsuario(widget.idUsuario);
     setState(() {
       _citasReservadas = citas;
     });
   }
 
-  void _saveAppointment(String hour) async {
+  /// Guarda una cita en la base de datos.
+  ///
+  /// [hour] es la hora seleccionada para la cita.
+  void _guardarCita(String hour) async {
     DatabaseHelper dbHelper = DatabaseHelper();
     bool disponible =
         await dbHelper.verificarDisponibilidad(_selectedDay, hour);
@@ -79,7 +96,7 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
           hora: hour,
           idServicio: idServicio,
           nombreServicio: _selectedService,
-          idUsuario: 1,
+          idUsuario: widget.idUsuario, // Usar el idUsuario del widget
         );
 
         ScaffoldMessenger.of(context)
@@ -113,7 +130,7 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
             onDaySelected: (selectedDay, focusedDay) {
               setState(() {
                 _selectedDay = selectedDay;
-                _fetchAvailableHours(); // Actualizar horas disponibles al seleccionar un día
+                _buscarHorasDisponibles(); // Actualizar horas disponibles al seleccionar un día.
               });
             },
           ),
@@ -144,8 +161,7 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
                 return ListTile(
                   title: Text(_availableHours[index]),
                   onTap: () {
-                    _saveAppointment(_availableHours[
-                        index]); // Guardar cita al seleccionar hora
+                    _guardarCita(_availableHours[index]); // Guardar cita al seleccionar hora.
                   },
                 );
               },

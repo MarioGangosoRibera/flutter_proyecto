@@ -3,6 +3,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+/// Clase que maneja la conexión y operaciones de la base de datos.
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   factory DatabaseHelper() => _instance;
@@ -11,14 +12,15 @@ class DatabaseHelper {
 
   DatabaseHelper._internal();
 
+  /// Obtiene la instancia de la base de datos, inicializándola si es necesario.
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDatabase();
     return _database!;
   }
 
+  /// Inicializa la base de datos y crea las tablas necesarias.
   Future<Database> _initDatabase() async {
-    // Usar databaseFactoryFfi para soporte en escritorio
     databaseFactory = databaseFactoryFfi;
 
     try {
@@ -69,6 +71,12 @@ class DatabaseHelper {
     }
   }
 
+  /// Registra un nuevo usuario en la base de datos.
+  ///
+  /// [nombre_apellidos] es el nombre y apellidos del usuario.
+  /// [telefono] es el número de teléfono del usuario.
+  /// [correo] es el correo electrónico del usuario.
+  /// [contrasena] es la contraseña del usuario.
   Future<void> registrarUsuario(String nombre_apellidos, String telefono,
       String correo, String contrasena) async {
     final db = await database;
@@ -84,6 +92,10 @@ class DatabaseHelper {
     }
   }
 
+  /// Verifica si un correo electrónico ya está registrado en la base de datos.
+  ///
+  /// [correo] es el correo electrónico a verificar.
+  /// Retorna `true` si el correo ya existe, de lo contrario `false`.
   Future<bool> existeCorreo(String correo) async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
@@ -91,9 +103,14 @@ class DatabaseHelper {
       where: 'correo_electronico = ?',
       whereArgs: [correo],
     );
-    return maps.isNotEmpty; // Devuelve true si el correo ya existe
+    return maps.isNotEmpty;
   }
 
+  /// Intenta iniciar sesión con el correo electrónico y la contraseña proporcionados.
+  ///
+  /// [correo] es el correo electrónico del usuario.
+  /// [contrasena] es la contraseña del usuario.
+  /// Retorna `true` si las credenciales son correctas, de lo contrario `false`.
   Future<bool> login(String correo, String contrasena) async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
@@ -101,9 +118,16 @@ class DatabaseHelper {
       where: 'correo_electronico = ? AND contrasena = ?',
       whereArgs: [correo, contrasena],
     );
-    return maps.isNotEmpty; // Verdadero si el usuario existe
+    return maps.isNotEmpty;
   }
 
+  /// Registra una nueva cita en la base de datos.
+  ///
+  /// [fecha] es la fecha de la cita.
+  /// [hora] es la hora de la cita.
+  /// [idUsuario] es el identificador del usuario que reserva la cita.
+  /// [nombreServicio] es el nombre del servicio asociado a la cita.
+  /// [idServicio] es el identificador del servicio.
   Future<int> registrarCita({
     required String fecha,
     required String hora,
@@ -124,6 +148,10 @@ class DatabaseHelper {
     return id;
   }
 
+  /// Obtiene las horas reservadas para una fecha específica.
+  ///
+  /// [fecha] es la fecha para la cual se desean obtener las horas reservadas.
+  /// Retorna una lista de horas reservadas en esa fecha.
   Future<List<String>> obtenerHorasReservadas(DateTime fecha) async {
     final db = await database;
     final List<Map<String, dynamic>> reservas = await db.query(
@@ -132,10 +160,12 @@ class DatabaseHelper {
       whereArgs: [fecha.toIso8601String()],
     );
 
-    // Extraer las horas reservadas
     return reservas.map((reserva) => reserva['hora'] as String).toList();
   }
 
+  /// Elimina una cita de la base de datos.
+  ///
+  /// [id] es el identificador de la cita que se desea eliminar.
   Future<void> eliminarCita(int id) async {
     final db = await database;
     await db.delete(
@@ -145,6 +175,10 @@ class DatabaseHelper {
     );
   }
 
+  /// Obtiene todas las citas reservadas por un usuario específico.
+  ///
+  /// [idUsuario] es el identificador del usuario cuyas citas se desean obtener.
+  /// Retorna una lista de mapas que representan las citas del usuario.
   Future<List<Map<String, dynamic>>> obtenerCitasPorUsuario(
       int idUsuario) async {
     final db = await database;
@@ -162,8 +196,6 @@ class DatabaseHelper {
         DATE(Cita.fecha) ASC, 
         Cita.hora ASC
     ''', [idUsuario]);
-
-      print("Citas obtenidas: $result"); // Para depuración
       return result;
     } catch (e) {
       print("Error al obtener citas: $e");
@@ -171,6 +203,7 @@ class DatabaseHelper {
     }
   }
 
+  /// Cierra la sesión del usuario actual.
   Future<void> cerrarSesion() async {
     final db = await database;
 
@@ -179,12 +212,17 @@ class DatabaseHelper {
       {
         'token': null,
         'is_logged_in': 0
-      }, // Limpia el token y marca como no logueado
-      where: 'id = ?', // O si solo hay un único registro de sesión
+      }, 
+      where: 'id = ?', 
       whereArgs: [1],
     );
   }
 
+  /// Verifica la disponibilidad de una hora específica en una fecha dada.
+  ///
+  /// [fecha] es la fecha en la que se desea verificar la disponibilidad.
+  /// [hora] es la hora que se desea verificar.
+  /// Retorna `true` si la hora está disponible, de lo contrario `false`.
   Future<bool> verificarDisponibilidad(DateTime fecha, String hora) async {
     final db = await database;
     final List<Map<String, dynamic>> citas = await db.query(
@@ -196,6 +234,10 @@ class DatabaseHelper {
     return citas.isEmpty; // Si no hay citas, la hora está disponible
   }
 
+  /// Obtiene el identificador de un servicio por su nombre.
+  ///
+  /// [nombreServicio] es el nombre del servicio a buscar.
+  /// Retorna el identificador del servicio. Si no existe, lo crea y retorna su id.
   Future<int> obtenerIdServicio(String nombreServicio) async {
     final db = await database;
     final List<Map<String, dynamic>> result = await db.query(
@@ -205,7 +247,6 @@ class DatabaseHelper {
     );
 
     if (result.isEmpty) {
-      // Si el servicio no existe, lo creamos
       final id =
           await db.insert('Servicios', {'nombre_servicio': nombreServicio});
       return id;

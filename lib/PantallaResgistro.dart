@@ -3,17 +3,31 @@ import 'package:Proyecto_segundaEv/databaseHelper.dart';
 import 'package:flutter/material.dart';
 import 'Colores.dart';
 
+/// PantallaRegistro es un widget que permite a los usuarios registrarse
+/// en la aplicación proporcionando su nombre, correo electrónico, número de teléfono
+/// y contraseña.
 class PantallaRegistro extends StatefulWidget {
   @override
   _PantallaRegistroState createState() => _PantallaRegistroState();
 }
 
 class _PantallaRegistroState extends State<PantallaRegistro> {
+  /// Clave global para el formulario.
   final formKey = GlobalKey<FormState>();
+
+  /// Instancia de [DatabaseHelper] para interactuar con la base de datos.
   final DatabaseHelper _dbHelper = DatabaseHelper();
+
+  /// Controlador para el campo de texto del nombre.
   final _nombreController = TextEditingController();
+
+  /// Controlador para el campo de texto del teléfono.
   final _telefonoController = TextEditingController();
+
+  /// Controlador para el campo de texto del correo electrónico.
   final _correoController = TextEditingController();
+
+  /// Controlador para el campo de texto de la contraseña.
   final _contrasenaController = TextEditingController();
 
   @override
@@ -94,7 +108,6 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
                         ElevatedButton.styleFrom(backgroundColor: colorBoton),
                     onPressed: () async {
                       try {
-                        //Verificar si el correo ya existe
                         bool correoExiste = await _dbHelper
                             .existeCorreo(_correoController.text);
                         if (correoExiste) {
@@ -103,6 +116,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
                                   'El correo electrónico ya está registrado')));
                           return;
                         }
+                        // Registrar el usuario en la base de datos
                         await _dbHelper.registrarUsuario(
                           _nombreController.text,
                           _telefonoController.text,
@@ -110,12 +124,15 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
                           _contrasenaController.text,
                         );
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Usuario registrado con exito.')));
-                        //Limpiar los campos después del registro
+                            content: Text('Usuario registrado con éxito.')));
+                        
+                        // Limpiar los campos después del registro
                         _nombreController.clear();
                         _telefonoController.clear();
                         _correoController.clear();
                         _contrasenaController.clear();
+                        
+                        // Navegar a la pantalla de inicio de sesión
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -141,7 +158,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
                               builder: (context) => PantallaLogin()),
                         );
                       },
-                      child: Text('Iniciar sesion'))
+                      child: Text('Iniciar sesión'))
                 ],
               )
             ],
