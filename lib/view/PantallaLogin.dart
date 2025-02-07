@@ -33,6 +33,7 @@ class PantallaLogin extends StatelessWidget {
               Container(
                 width: 300,
                 child: TextFormField(
+                  key: Key("correoField"),
                   controller: correoController,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -49,6 +50,7 @@ class PantallaLogin extends StatelessWidget {
               Container(
                 width: 300,
                 child: TextFormField(
+                  key: Key("contrasenaField"),
                   controller: contrasenaController,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -66,6 +68,7 @@ class PantallaLogin extends StatelessWidget {
               Container(
                 width: 200,
                 child: ElevatedButton(
+                  key: Key("loginButton"),
                     style:
                         ElevatedButton.styleFrom(backgroundColor: colorBoton),
                     onPressed: () async {
