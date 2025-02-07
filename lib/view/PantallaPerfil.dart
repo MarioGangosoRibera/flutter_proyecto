@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'Colores.dart';
+import '../model/Colores.dart';
 import 'PantallaPrincipal.dart';
-import 'databaseHelper.dart';
+import '../database/databaseHelper.dart';
 
 /// PantallaPerfil es un widget que muestra la información del perfil del usuario,
 /// incluyendo el correo electrónico, teléfono y dirección de consulta.

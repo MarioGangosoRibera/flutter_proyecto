@@ -1,7 +1,7 @@
-import 'package:Proyecto_segundaEv/PantallaLogin.dart';
-import 'package:Proyecto_segundaEv/databaseHelper.dart';
+import 'package:Proyecto_segundaEv/view/PantallaLogin.dart';
+import 'package:Proyecto_segundaEv/database/databaseHelper.dart';
 import 'package:flutter/material.dart';
-import 'Colores.dart';
+import '../model/Colores.dart';
 
 /// PantallaRegistro es un widget que permite a los usuarios registrarse
 /// en la aplicación proporcionando su nombre, correo electrónico, número de teléfono

@@ -1,4 +1,4 @@
-import 'package:Proyecto_segundaEv/Colores.dart';
+import 'package:Proyecto_segundaEv/model/Colores.dart';
 import 'package:flutter/material.dart';
 import 'PantallaCalendarioCitas.dart';
 import 'PantallaPerfil.dart';

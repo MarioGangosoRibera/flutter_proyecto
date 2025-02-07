@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'PantallaLogin.dart';
 import 'PantallaResgistro.dart';
-import 'Colores.dart';
+import '../model/Colores.dart';
 
 /// PantallaPrincipal es un widget que sirve como la pantalla de inicio de la aplicación.
 /// Proporciona opciones para iniciar sesión o registrarse.

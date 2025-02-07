@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'Colores.dart';
-import 'databaseHelper.dart';
+import '../model/Colores.dart';
+import '../database/databaseHelper.dart';
 
 /// PantallaCalendarioCitas es un widget que muestra un calendario de citas
 /// para un usuario específico. Permite mostrar y eliminar citas.

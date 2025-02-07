@@ -1,5 +1,5 @@
-import 'package:Proyecto_segundaEv/Colores.dart';
-import 'package:Proyecto_segundaEv/PantallaPrincipal.dart';
+import 'package:Proyecto_segundaEv/model/Colores.dart';
+import 'package:Proyecto_segundaEv/view/PantallaPrincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

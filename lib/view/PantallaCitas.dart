@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'databaseHelper.dart';
-import 'Colores.dart';
+import '../database/databaseHelper.dart';
+import '../model/Colores.dart';
 
 /// PantallaCitas es un widget que permite a los usuarios seleccionar una fecha
 /// y hora para reservar una cita para un servicio específico.

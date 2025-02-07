@@ -1,7 +1,7 @@
-import 'package:Proyecto_segundaEv/PantallaResgistro.dart';
-import 'package:Proyecto_segundaEv/databaseHelper.dart';
+import 'package:Proyecto_segundaEv/view/PantallaResgistro.dart';
+import 'package:Proyecto_segundaEv/database/databaseHelper.dart';
 import 'package:flutter/material.dart';
-import 'Colores.dart';
+import '../model/Colores.dart';
 import 'PantallaServicios.dart';
 
 /// PantallaLogin es un widget que permite a los usuarios iniciar sesión
