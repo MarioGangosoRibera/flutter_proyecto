@@ -72,7 +72,6 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
 
     if (disponible) {
       try {
-        // Obtener el ID del servicio seleccionado
         int idServicio = await dbHelper.obtenerIdServicio(_selectedService);
 
         await dbHelper.registrarCita(

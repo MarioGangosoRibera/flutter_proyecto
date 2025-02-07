@@ -377,16 +377,6 @@ class PantallaServiciosContent extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      // Botón debajo del texto
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: colorBoton),
-                        onPressed: () {},
-                        child: Text(
-                          'Pedir cita',
-                          style: TextStyle(color: colorLetraB),
-                        ),
-                      ),
                       SizedBox(height: 10),
                     ],
                   )),
