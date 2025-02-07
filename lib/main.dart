@@ -3,7 +3,6 @@ import 'package:Proyecto_segundaEv/PantallaPrincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-
 void main() {
   databaseFactory = databaseFactoryFfi; // Inicializa el factory
   sqfliteFfiInit();
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: colorFondo),
-      title: 'Mi Aplicación',
+      title: 'Alba Donado Nutricion',
       home: PantallaPrincipal(),
     );
   }

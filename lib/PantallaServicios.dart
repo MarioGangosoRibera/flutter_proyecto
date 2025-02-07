@@ -92,8 +92,8 @@ class PantallaServiciosContent extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        height: 200,
-                        width: 300,
+                        height: 250,
+                        width: 450,
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(15)),
@@ -145,8 +145,8 @@ class PantallaServiciosContent extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        height: 200,
-                        width: 300,
+                        height: 250,
+                        width: 450,
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(15)),
@@ -197,8 +197,8 @@ class PantallaServiciosContent extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        height: 200,
-                        width: 300,
+                        height: 250,
+                        width: 450,
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(15)),
@@ -250,8 +250,8 @@ class PantallaServiciosContent extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        height: 200,
-                        width: 300,
+                        height: 250,
+                        width: 450,
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(15)),
@@ -302,8 +302,8 @@ class PantallaServiciosContent extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        height: 200,
-                        width: 300,
+                        height: 250,
+                        width: 450,
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(15)),
@@ -355,8 +355,8 @@ class PantallaServiciosContent extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        height: 200,
-                        width: 300,
+                        height: 250,
+                        width: 450,
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(15)),

@@ -8,7 +8,7 @@ class PantallaRegistro extends StatefulWidget {
   _PantallaRegistroState createState() => _PantallaRegistroState();
 }
 
-class _PantallaRegistroState extends State<PantallaRegistro>{
+class _PantallaRegistroState extends State<PantallaRegistro> {
   final formKey = GlobalKey<FormState>();
   final DatabaseHelper _dbHelper = DatabaseHelper();
   final _nombreController = TextEditingController();
@@ -93,13 +93,14 @@ class _PantallaRegistroState extends State<PantallaRegistro>{
                     style:
                         ElevatedButton.styleFrom(backgroundColor: colorBoton),
                     onPressed: () async {
-                      try{
-                        //Verificar si el correo ya existe 
-                        bool correoExiste = await _dbHelper.existeCorreo(_correoController.text);
-                        if(correoExiste){
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('El correo electrónico ya está registrado'))
-                          );
+                      try {
+                        //Verificar si el correo ya existe
+                        bool correoExiste = await _dbHelper
+                            .existeCorreo(_correoController.text);
+                        if (correoExiste) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'El correo electrónico ya está registrado')));
                           return;
                         }
                         await _dbHelper.registrarUsuario(
@@ -108,18 +109,21 @@ class _PantallaRegistroState extends State<PantallaRegistro>{
                           _correoController.text,
                           _contrasenaController.text,
                         );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Usuario registrado con exito.'))
-                        );
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Usuario registrado con exito.')));
                         //Limpiar los campos después del registro
                         _nombreController.clear();
                         _telefonoController.clear();
                         _correoController.clear();
                         _contrasenaController.clear();
-                      } catch (e){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error al registrar el usuario: $e'))
-                        );
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PantallaLogin()));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content:
+                                Text('Error al registrar el usuario: $e')));
                       }
                     },
                     child: Text('Registrarse',

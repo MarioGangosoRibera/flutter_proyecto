@@ -108,7 +108,8 @@ class DatabaseHelper {
     required String fecha,
     required String hora,
     required int idUsuario,
-    required String nombreServicio, required int idServicio,
+    required String nombreServicio,
+    required int idServicio,
   }) async {
     final db = await database;
     final idServicio = await obtenerIdServicio(nombreServicio);
@@ -139,7 +140,7 @@ class DatabaseHelper {
     final db = await database;
     await db.delete(
       'Cita',
-      where: 'id = ?',
+      where: 'id_cita = ?',
       whereArgs: [id],
     );
   }
@@ -157,7 +158,9 @@ class DatabaseHelper {
       FROM Cita
       INNER JOIN Servicios ON Cita.id_servicio = Servicios.id_servicio
       WHERE Cita.id_usuario = ?
-      ORDER BY Cita.fecha DESC, Cita.hora ASC
+      ORDER BY 
+        DATE(Cita.fecha) ASC, 
+        Cita.hora ASC
     ''', [idUsuario]);
 
       print("Citas obtenidas: $result"); // Para depuración

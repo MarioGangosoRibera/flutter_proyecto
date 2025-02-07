@@ -9,7 +9,8 @@ class PantallaCalendarioCitas extends StatefulWidget {
   PantallaCalendarioCitas({required this.idUsuario});
 
   @override
-  _PantallaCalendarioCitasState createState() => _PantallaCalendarioCitasState();
+  _PantallaCalendarioCitasState createState() =>
+      _PantallaCalendarioCitasState();
 }
 
 class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
@@ -30,14 +31,12 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
 
     try {
       final citas = await _dbHelper.obtenerCitasPorUsuario(widget.idUsuario);
-      print('Citas cargadas: $citas'); // Para depuración
 
       setState(() {
         _citas = citas;
         _isLoading = false;
       });
     } catch (e) {
-      print('Error al cargar citas: $e'); // Para depuración
       setState(() {
         _isLoading = false;
       });
@@ -49,7 +48,7 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(mensaje),
-        backgroundColor: Colors.red,
+        backgroundColor: colorRojo,
       ),
     );
   }
@@ -59,7 +58,6 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
       final DateTime fechaDateTime = DateTime.parse(fecha);
       return DateFormat('dd/MM/yyyy').format(fechaDateTime);
     } catch (e) {
-      print('Error al formatear fecha: $e'); // Para depuración
       return fecha;
     }
   }
@@ -67,7 +65,6 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
   Future<void> _eliminarCita(int idCita) async {
     try {
       await _dbHelper.eliminarCita(idCita);
-      _mostrarMensaje('Cita eliminada con éxito');
       _cargarCitas();
     } catch (e) {
       _mostrarError('Error al eliminar la cita');
@@ -118,20 +115,22 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.delete_outline, color: Colors.red),
+                    icon: Icon(Icons.delete_outline, color: colorRojo),
                     onPressed: () {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
                           title: Text('Confirmar eliminación'),
-                          content: Text('¿Estás seguro de que deseas eliminar esta cita?'),
+                          content: Text(
+                              '¿Estás seguro de que deseas eliminar esta cita?'),
                           actions: [
                             TextButton(
                               child: Text('Cancelar'),
                               onPressed: () => Navigator.pop(context),
                             ),
                             TextButton(
-                              child: Text('Eliminar', style: TextStyle(color: Colors.red)),
+                              child: Text('Eliminar',
+                                  style: TextStyle(color: colorRojo)),
                               onPressed: () {
                                 Navigator.pop(context);
                                 _eliminarCita(cita['id_cita']);
@@ -178,16 +177,6 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: colorFondo,
-        title: Text('Mis Citas'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: _cargarCitas,
-          ),
-        ],
-      ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : RefreshIndicator(
@@ -200,7 +189,7 @@ class _PantallaCalendarioCitasState extends State<PantallaCalendarioCitas> {
                           Icon(
                             Icons.event_busy,
                             size: 64,
-                            color: Colors.grey,
+                            color: colorGris,
                           ),
                           SizedBox(height: 16),
                           Text(

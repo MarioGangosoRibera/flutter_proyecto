@@ -79,7 +79,7 @@ class _PantallaPedirCitaState extends State<PantallaCitas> {
           fecha: _selectedDay.toIso8601String(),
           hora: hour,
           idServicio: idServicio,
-          nombreServicio: '',
+          nombreServicio: _selectedService,
           idUsuario: 1,
         );
 
